@@ -7,6 +7,14 @@ defmodule Euler.Exercise_002 do
   """
   @spec solution(integer()) :: integer()
   def solution(limit \\ 4_000_000) do
+    fibonacci()
+    |> Enum.take_while(&(&1 <= limit))
+    |> Enum.filter(&(rem(&1, 2) == 0))
+    |> Enum.reduce(&(&1 + &2))
+  end
+
+  @spec solution_old(integer()) :: integer()
+  def solution_old(limit \\ 4_000_000) do
     Stream.iterate(0, &(&1 + 1))
     |> Stream.map(&fib(&1))
     |> Enum.take_while(&(&1 <= limit))
@@ -17,4 +25,7 @@ defmodule Euler.Exercise_002 do
   defp fib(0), do: 0
   defp fib(1), do: 1
   defp fib(n), do: fib(n - 2) + fib(n - 1)
+
+  # nicer - and faster:
+  def fibonacci(), do: Stream.unfold({0, 1}, fn {a, b} -> {a, {b, a + b}} end)
 end
