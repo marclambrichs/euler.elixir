@@ -4,9 +4,14 @@ defmodule Euler.Exercise_005 do
   without any remainder.
 
   What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
-  """
 
+
+  """
   def solution(max \\ 20) do
+    [4, 7, 9, 10] |> List.foldl(1, &(&1 * &2))
+  end
+
+  def solution_old(max \\ 20) do
     Stream.iterate(1, &(&1 + 1))
     |> Stream.take_while(&(divisible?(&1, 1..max) == false))
     |> Enum.fetch!(-1)

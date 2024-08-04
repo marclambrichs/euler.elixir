@@ -5,8 +5,12 @@ defmodule Euler.Exercise_002 do
     1, 2, 3, 5, 8, 13, 21, 34, 55, 89, .....
   By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
   """
+
+  import Euler.Globals
+
   @spec solution(integer()) :: integer()
   def solution(limit \\ 4_000_000) do
+    # nicer - and faster: use the globals fibonacci
     fibonacci()
     |> Enum.take_while(&(&1 <= limit))
     |> Enum.filter(&(rem(&1, 2) == 0))
@@ -25,7 +29,4 @@ defmodule Euler.Exercise_002 do
   defp fib(0), do: 0
   defp fib(1), do: 1
   defp fib(n), do: fib(n - 2) + fib(n - 1)
-
-  # nicer - and faster:
-  def fibonacci(), do: Stream.unfold({0, 1}, fn {a, b} -> {a, {b, a + b}} end)
 end
