@@ -4,9 +4,14 @@ defmodule Euler.Exercise_079_test do
   import Euler.Exercise_079
 
   describe "solutions/1" do
-    test "returns maximum total" do
-      solution()
-#      assert 7273 = solution()
+    test "returns minimum password" do
+      assert "73162890" = solution()
+    end
+  end
+
+  describe "solutions2/1" do
+    test "returns minimum password" do
+      assert "73162890" = solution2()
     end
   end
 end
