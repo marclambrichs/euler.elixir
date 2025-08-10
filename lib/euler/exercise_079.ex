@@ -15,22 +15,42 @@ defmodule Euler.Exercise_079 do
 
   def solution() do
     from_file("priv/files/0079_keylog.txt")
-    |> Enum.take(10)
-    |> IO.inspect
+    |> Password.filter("")
   end
 
   def from_file(file) do
     file
     |> File.stream!()
     |> Stream.map(&String.trim/1)
-    |> Stream.map(&String.to_integer/1)
-    |> Stream.map(&Integer.digits/1)
+  end
+end
+
+defmodule Euler.Password do
+  defp firsts(attempts) do
+    Enum.map(attempts, &String.codepoints/1)
+    |> Enum.map(&Enum.take(&1, 1))
+    |> Enum.uniq()
+    |> List.flatten()
   end
 
+  defp tails(attempts) do
+    attempts
+    |> Enum.map(&String.slice(&1, 1..-1//1))
   end
 
-  defmodule Euler.Password do
-    def firsts(attempts) do
-     Enum.map(attempts, &Enum.split(&1, 1))
-    end
+  def filter([], acc), do: acc
+
+  def filter(attempts, acc) do
+    tails = tails(attempts)
+
+    [first] =
+      firsts(attempts)
+      |> Enum.filter(fn x -> Enum.all?(tails, fn y -> !String.contains?(y, x) end) end)
+
+    # Remove firsts from front of all attempts it appears in
+    filter(
+      attempts |> Enum.map(&String.replace(&1, ~r/^#{first}/, "")) |> Enum.filter(&(&1 != "")),
+      acc <> first
+    )
   end
+end

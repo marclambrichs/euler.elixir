@@ -5,8 +5,7 @@ defmodule Euler.Exercise_079_test do
 
   describe "solutions/1" do
     test "returns maximum total" do
-      solution()
-#      assert 7273 = solution()
+      assert "73162890" = solution()
     end
   end
 end
