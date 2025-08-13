@@ -7,6 +7,8 @@ defmodule Euler.Exercise_010 do
 
   import Euler.Globals
 
+  def timer(), do: :timer.tc(__MODULE__, :solution, [])
+
   def solution(n \\ 2_000_000) do
     primes()
     |> Stream.take_while(fn x -> x < n end)

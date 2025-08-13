@@ -23,9 +23,22 @@ defmodule Euler.Globals do
   def is_prime?(0), do: false
   def is_prime?(1), do: false
   def is_prime?(2), do: true
-  def is_prime?(n), do: !Enum.any?(2..(floor(:math.sqrt(n)) + 1), &(rem(n, &1) == 0))
+#  def is_prime?(n), do: !Enum.any?(2..(floor(:math.sqrt(n)) + 1), &(rem(n, &1) == 0))
+  def is_prime?(n), do: is_prime?(1, n)
 
   def n_primes(n), do: primes() |> Enum.take(n)
+
+  # TODO: faster?
+  def is_prime?(_, 1), do: false
+  def is_prime?(1, y), do: is_prime?(2, y)
+
+  def is_prime?(x, y) do
+    if x <= :math.sqrt(y) do
+      rem(y, x) != 0 and is_prime?(x + 1, y)
+    else
+      true
+    end
+  end
 
   @doc """
   Get all primes below or equal to a certain number
@@ -33,10 +46,11 @@ defmodule Euler.Globals do
   def primes(max),
     do:
       1..max
-      |> Enum.reduce([], fn x, acc -> if is_prime?(acc, x), do: [x | acc], else: acc end)
+#      |> Enum.reduce([], fn x, acc -> if is_prime?(acc, x), do: [x | acc], else: acc end)
+      |> Enum.reduce([], fn x, acc -> if is_prime?(x), do: [x | acc], else: acc end)
 
-  defp is_prime?(_primes, 1), do: false
-  defp is_prime?(primes, n), do: !Enum.any?(primes, &(rem(n, &1) == 0))
+#  defp is_prime?(_primes, 1), do: false
+#  defp is_prime?(primes, n), do: !Enum.any?(primes, &(rem(n, &1) == 0))
 
   @doc """
   Factors
