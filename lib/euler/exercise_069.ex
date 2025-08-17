@@ -10,8 +10,10 @@ defmodule Euler.Exercise_069 do
   Find the value of n <= 1_000_000 for which n/φ(n) is a maximum.
   """
   alias Euler.Globals
+  alias Euler.Globals.Sieve
 
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
+  def timer2(), do: :timer.tc(__MODULE__, :solution2, [])
 
   def solution(n \\ 1_000_000) do
     2..n
@@ -19,6 +21,20 @@ defmodule Euler.Exercise_069 do
     |> Enum.reduce({0, 0}, fn {a, phi}, {b, max} ->
       calc = a / phi
       if calc > max, do: {a, calc}, else: {b, max}
+    end)
+  end
+
+  @doc """
+  Fastest solution
+  """
+  def solution2(n \\ 1_000_000) do
+    Sieve.stream()
+    |> Enum.reduce_while(1, fn x, acc ->
+      if acc * x < n do
+        {:cont, acc * x}
+      else
+        {:halt, acc}
+      end
     end)
   end
 
@@ -34,6 +50,8 @@ defmodule Euler.Exercise_069 do
   @doc """
   https://en.wikipedia.org/wiki/Euler%27s_totient_function
   """
+  def φ2(1), do: 1
+
   def φ2(n) when n > 1 do
     Globals.primefactors(n) |> Enum.reduce(n, fn x, acc -> acc * (1 - 1 / x) end)
   end
