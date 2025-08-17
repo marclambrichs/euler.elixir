@@ -9,6 +9,11 @@ defmodule Euler.Exercise_070 do
   Find the value of n, 1 < n < 10 ** 7, for which φ(n) is a permutation of n and the ration n/φ(n) produces a minimum.
 
   https://en.wikipedia.org/wiki/Euler%27s_totient_function
+
+  Rationale:
+  n/φ(n) minimum? This means that φ(n) is near n
+  because φ(n) = n - 1, φ(n) must be a product of at least 2 primes
+
   """
   alias Euler.Globals.Sieve
 
