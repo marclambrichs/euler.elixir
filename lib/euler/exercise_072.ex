@@ -17,10 +17,4 @@ defmodule Euler.Exercise_072 do
   def φ(n) when n > 1 do
     Globals.primefactors(n) |> Enum.reduce(n, fn x, acc -> acc * (1 - 1 / x) end)
   end
-  def φ(n) when n > 1 do
-    case Globals.is_prime?(n) do
-      true -> n - 1
-      false ->
-    end
-  end
 end
