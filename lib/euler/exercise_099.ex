@@ -7,6 +7,7 @@ defmodule Euler.Exercise_099 do
   """
 
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
+  def timer2(), do: :timer.tc(__MODULE__, :solution2, [])
 
   def solution() do
     from_file("priv/files/0099_base_exp.txt")
@@ -17,6 +18,17 @@ defmodule Euler.Exercise_099 do
         pow1 > pow2 -> if base2 > base1 ** (pow1 / pow2), do: {line, base2, pow2}, else: acc
         pow1 == pow2 -> if base1 > base2, do: acc, else: {line, base2, pow2}
       end
+    end)
+    |> Enum.take(-1)
+  end
+
+  @doc """
+  Use logarithms.
+  """
+  def solution2() do
+    from_file("priv/files/0099_base_exp.txt")
+    |> Stream.scan({0, 1, 0}, fn {line, [base2, pow2]}, {_, base1, pow1} = acc ->
+      if pow2 * :math.log(base2) > pow1 * :math.log(base1), do: {line, base2, pow2}, else: acc
     end)
     |> Enum.take(-1)
   end
