@@ -1,6 +1,8 @@
 defmodule Euler.Exercise_064 do
   @moduledoc """
   Odd Period Square Roots
+
+  https://en.wikipedia.org/wiki/Euler%27s_continued_fraction_formula
   """
 
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
