@@ -5,7 +5,7 @@ defmodule Euler.Exercise_065 do
 
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
 
-  def solution(n \\ 10_000) do
+  def solution() do
     e_numerator()
     |> Integer.digits()
     |> Enum.sum()
