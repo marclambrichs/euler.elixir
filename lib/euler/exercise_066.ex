@@ -46,10 +46,7 @@ defmodule Euler.Exercise_066 do
       |> pells_period()
       |> Enum.reverse()
       |> Enum.reduce({0, 1}, fn x, {n, d} ->
-        case n == 0 do
-          true -> {1, x}
-          false -> {d, x * d + n}
-        end
+        if n == 0, do: {1, x}, else: {d, x * d + n}
       end)
 
     numerator = base * fraction_denom + fraction_num
