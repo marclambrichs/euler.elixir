@@ -139,6 +139,8 @@ defmodule Euler.Globals do
 
   def is_perfect_square?(_), do: false
 
+  def triangle(), do: Stream.unfold(1, &{div(&1 * (&1 + 1), 2), &1 + 1})
+
   defmodule Sieve do
     @moduledoc """
     Sieve of Ερατοσθενους
