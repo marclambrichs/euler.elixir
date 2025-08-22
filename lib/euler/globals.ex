@@ -132,6 +132,13 @@ defmodule Euler.Globals do
     end ++ combinations(size, t)
   end
 
+  def is_perfect_square?(n) when n >= 0 do
+    root = :math.sqrt(n)
+    Float.floor(root) == root
+  end
+
+  def is_perfect_square?(_), do: false
+
   defmodule Sieve do
     @moduledoc """
     Sieve of Ερατοσθενους

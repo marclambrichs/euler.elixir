@@ -4,24 +4,18 @@ defmodule Euler.Exercise_064 do
 
   https://en.wikipedia.org/wiki/Euler%27s_continued_fraction_formula
   """
+  alias Euler.Globals
 
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
 
   def solution(n \\ 10_000) do
     2..n
-    |> Enum.filter(&(is_perfect_square?(&1) == false))
+    |> Enum.filter(&(Globals.is_perfect_square?(&1) == false))
     |> Enum.map(fn x -> continued_fraction(x) end)
     |> Enum.map(&is_odd?/1)
     |> Enum.filter(& &1)
     |> Enum.count()
   end
-
-  defp is_perfect_square?(n) when n >= 0 do
-    root = :math.sqrt(n)
-    Float.floor(root) == root
-  end
-
-  defp is_perfect_square?(_), do: false
 
   defp is_odd?(period) when is_list(period), do: Enum.count(period) |> rem(2) != 0
   defp is_odd?(_period), do: false
