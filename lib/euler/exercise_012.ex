@@ -11,6 +11,8 @@ defmodule Euler.Exercise_012 do
   """
   import Euler.Globals
 
+  def timer(), do: :timer.tc(__MODULE__, :brute_force, [])
+
   def brute_force(n \\ 500) do
     Stream.iterate(1, &(&1 + 1))
     |> Stream.map(&triangle/1)
