@@ -50,17 +50,19 @@ defmodule Euler.Dijkstra do
   Recursive case
   """
   def shortest_path(graph, [{cost, [node | _] = path} | routes], finish, visited) do
+    nodes = Map.keys(graph)
+
     newRoutes =
-      for {newNode, newCost} <- graph,
-          is_neighbour?(node, newNode),
+      for newNode <- neighbours(node),
+          newNode in nodes,
           newNode not in visited do
-        {cost + newCost, [newNode | path]}
+        {cost + Map.fetch!(graph, newNode), [newNode | path]}
       end
 
     shortest_path(graph, Enum.sort(newRoutes ++ routes), finish, [node] ++ visited)
   end
 
-  def is_neighbour?({@max, y}, {i, j}), do: i == @max and j == y + 1
-  def is_neighbour?({x, @max}, {i, j}), do: i == x + 1 and j == @max
-  def is_neighbour?({x, y}, {i, j}), do: (i == x + 1 and j == y) or (i == x and j == y + 1)
+  def neighbours(@max, y), do: [{@max, y + 1}]
+  def neighbours(x, @max), do: [{x + 1, @max}]
+  def neighbours({x, y}), do: [{x + 1, y}, {x, y + 1}]
 end
