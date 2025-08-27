@@ -25,7 +25,7 @@ defmodule Euler.Exercise_100 do
   which is a negative Pell's equation: v^2 - 2u^2 = -1
   (https://en.wikipedia.org/wiki/Pell%27s_equation#The_negative_Pell's_equation)
 
-  Now, look at the continued fraction sqrt(2), to find out that v = 1 and u = 1
+  Now, look at the table in the link for D = 2, to find out that v = 1 and u = 1
 
   Now, all solutions to v^2 -2u^2 = -1 can be found by:
   v(n + 2) = 3 * v + 4 * u
