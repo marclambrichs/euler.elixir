@@ -10,7 +10,7 @@ defmodule Euler.Exercise_069 do
   Find the value of n <= 1_000_000 for which n/φ(n) is a maximum.
   """
   alias Euler.Globals
-  alias Euler.Globals.Sieve
+  alias Euler.Globals.Sequences.Sieve
 
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
   def timer2(), do: :timer.tc(__MODULE__, :solution2, [])
