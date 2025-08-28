@@ -140,27 +140,4 @@ defmodule Euler.Globals do
   def is_perfect_square?(_), do: false
 
   def triangle(), do: Stream.unfold(1, &{div(&1 * (&1 + 1), 2), &1 + 1})
-
-  defmodule Sieve do
-    @moduledoc """
-    Sieve of Ερατοσθενους
-    """
-    def take(n), do: stream() |> Enum.take(n)
-    def upto(n), do: stream() |> Enum.take_while(&(&1 <= n))
-
-    def stream() do
-      Stream.unfold([], fn
-        [] -> {2, [2]}
-        [h | t] -> next(h + 1, [h | t])
-      end)
-    end
-
-    def next(n, primes) do
-      if Enum.any?(primes, &(rem(n, &1) == 0)) do
-        next(n + 1, primes)
-      else
-        {n, [n | primes]}
-      end
-    end
-  end
 end

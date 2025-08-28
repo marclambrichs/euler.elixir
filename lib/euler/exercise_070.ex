@@ -15,7 +15,7 @@ defmodule Euler.Exercise_070 do
   because φ(n) = n - 1, φ(n) must be a product of at least 2 primes
 
   """
-  alias Euler.Globals.Sieve
+  alias Euler.Globals.Sequences.Sieve
 
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
 
