@@ -49,11 +49,5 @@ defmodule Euler.Globals.Sequences do
         {n, [n | primes]}
       end
     end
-
-    def primefactors(n) do
-      upto(n)
-      |> Stream.filter(&(rem(n, &1) == 0))
-      |> Enum.to_list()
-    end
   end
 end
