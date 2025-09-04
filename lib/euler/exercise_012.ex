@@ -57,6 +57,7 @@ defmodule Euler.Exercise_012 do
   end
 
   # Recursive function
-  defp triangle(1), do: 1
-  defp triangle(n), do: n + triangle(n - 1)
+#  defp triangle(1), do: 1
+#  defp triangle(n), do: n + triangle(n - 1)
+
 end

@@ -11,7 +11,7 @@ defmodule Euler.Exercise_080 do
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
 
   def solution() do
-    1..1000
+    1..100
     |> Enum.filter(&(!Globals.is_perfect_square?(&1)))
     |> Enum.flat_map(&heron/1)
     |> Enum.map(fn x -> D.to_string(x) end)
