@@ -8,9 +8,13 @@ defmodule Euler.Globals.Sequences do
 
     def next([{a, b}, {c, d}], layer) when c <= layer do
       k = Integer.floor_div(layer + b, d)
+      {{a, b}, {{c, d}, {k * c - a, k * d - b}, layer}}
+    end
+
+    def next([{a, b}, {c, d}], layer) do
+      k = Integer.floor_div(layer + 1 + b, d)
       {{a, b}, {{c, d}, {k * c - a, k * d - b}, layer + 1}}
     end
-    def next(_values, _layer), do: []
   end
 
   defmodule Pascal do
