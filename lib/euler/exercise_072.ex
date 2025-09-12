@@ -5,7 +5,7 @@ defmodule Euler.Exercise_072 do
   How many elements would be contained in the set of reduced proper fractions for d <= 1_000_000?
   """
   alias Euler.Globals
-  alias Euler.Globals.Sequences.Sieve, as: S
+
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
 
   def solution(n \\ 1_000_000) do
@@ -21,7 +21,6 @@ defmodule Euler.Exercise_072 do
   end
 
   def φ(n) when n > 1 do
-    #  Globals.primefactors(n) |> Enum.reduce(n, fn x, acc -> acc * (1 - 1 / x) end)
-    S.primefactors(n) |> Enum.reduce(n, fn x, acc -> acc * (1 - 1 / x) end)
+    Globals.primefactors(n) |> Enum.reduce(n, fn x, acc -> acc * (1 - 1 / x) end)
   end
 end
