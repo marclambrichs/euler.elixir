@@ -13,11 +13,11 @@ defmodule Euler.Exercise_004 do
 
   def solution(nr_of_chars) do
     range =
-      (String.duplicate("9", nr_of_chars) |> String.to_integer())..(String.duplicate(
-                                                                      "1",
-                                                                      nr_of_chars
-                                                                    )
-                                                                    |> String.to_integer())
+      Range.new(
+        String.duplicate("9", nr_of_chars) |> String.to_integer(),
+        String.duplicate("1", nr_of_chars) |> String.to_integer(),
+        -1
+      )
 
     Stream.flat_map(range, fn x -> Stream.map(range, fn y -> x * y end) end)
     |> Enum.filter(fn x -> is_palindrome?(x) end)
