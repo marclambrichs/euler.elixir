@@ -10,6 +10,9 @@ defmodule Euler.Exercise_072 do
   def solution(n \\ 1_000_000) do
     Stream.iterate(2, &(&1 + 1))
     |> Stream.map(&{&1, φ(&1)})
+
+    Stream.iterate(2, &(&1 + 1))
+    |> Stream.map(&{&1, φ(&1)})
     |> Stream.take_while(fn {a, _b} -> a <= n end)
     |> Enum.reduce(0, fn {_a, b}, acc -> acc + b end)
   end
