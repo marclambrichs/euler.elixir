@@ -5,6 +5,7 @@ defmodule Euler.Exercise_072 do
   How many elements would be contained in the set of reduced proper fractions for d <= 1_000_000?
   """
   alias Euler.Globals
+
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
 
   def solution(n \\ 1_000_000) do
@@ -12,6 +13,11 @@ defmodule Euler.Exercise_072 do
     |> Stream.map(&{&1, φ(&1)})
     |> Stream.take_while(fn {a, _b} -> a <= n end)
     |> Enum.reduce(0, fn {_a, b}, acc -> acc + b end)
+  end
+
+  def solution2(n \\ 1_000_000) do
+    Stream.scan(2..n, 0, &(φ(&1) + &2))
+    |> Enum.take(-1)
   end
 
   def φ(n) when n > 1 do
