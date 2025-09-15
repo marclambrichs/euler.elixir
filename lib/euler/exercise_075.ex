@@ -1,6 +1,8 @@
 defmodule Euler.Exercise_075 do
   @moduledoc """
   Singular Integer Right Triangles
+
+  https://en.wikipedia.org/wiki/Tree_of_primitive_Pythagorean_triples#Alternative_methods_of_generating_the_tree
   """
   def timer(), do: :timer.tc(__MODULE__, :solution, [])
 
