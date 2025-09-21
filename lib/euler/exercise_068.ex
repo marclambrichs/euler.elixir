@@ -5,29 +5,51 @@ defmodule Euler.Exercise_068 do
   Using the numbers 1 to 10, and depending on arrangements, it is possible to form 16- and 17-digit strings.
   What is the maximum 16-digit string for a "magic" 5-gon ring?
   """
-  alias Euler.Globals, as: G
-
+  
   @nr_of_elements 5
+
+  def timer(), do: :timer.tc(__MODULE__, :solution, [])
 
   def solution(n \\ @nr_of_elements) do
     Range.to_list(1..(n * 2))
     |> combinations(3)
     |> group_by_size()
     |> Enum.flat_map(&external_nodes/1)
-    |> Enum.map(&generate_options/1)
+    |> Enum.map(&generate_solutions/1)
     |> List.flatten()
     |> Enum.sort(&(&1 >= &2))
     |> Enum.take(1)
   end
 
-  def generate_options([h | t]) do
+  def combinations(_list, 0), do: [[]]
+  def combinations([], _), do: []
+
+  def combinations([x | xs], n) do
+    for(y <- combinations(xs, n - 1), do: [x | y]) ++ combinations(xs, n)
+  end
+
+  def group_by_size(set) do
+    Enum.group_by(set, &Enum.sum(&1))
+    |> Enum.map(fn {_k, v} -> v end)
+    |> Enum.filter(&(Enum.count(&1) >= @nr_of_elements))
+  end
+
+  def external_nodes(list) do
+    combinations(list, @nr_of_elements)
+    |> Enum.map(&organize/1)
+    # Filter for having exactly nr_of_elements 3-tuples
+    |> Enum.filter(&(Enum.count(&1) == @nr_of_elements))
+  end
+
+  def generate_solutions([h | t]) do
     tail = Enum.map(t, &options(&1)) |> Enum.reduce([], &(&1 ++ &2))
 
     for list <- Enum.map(options(h), fn x -> x ++ next(x, tail) end) do
       Enum.map(list, fn {a, _} -> a end)
       |> Enum.chunk_every(3)
-      # sorting
+      # Sorting
       |> sort()
+      # Convert to string
       |> Enum.reduce("", fn triple, acc ->
         acc <> Enum.reduce(triple, "", fn x, nr -> nr <> Integer.to_string(x) end)
       end)
@@ -75,52 +97,17 @@ defmodule Euler.Exercise_068 do
     [head ++ tail, head ++ Enum.reverse(tail)]
   end
 
-  def group([h | t]),
-    do:
-      Enum.reduce(G.permutations(t), [], fn nodes, acc ->
-        [[h] ++ nodes] ++ acc
-      end)
-
-  def combinations([]), do: []
-
-  def combinations([xs | ys]) do
-    for x <- xs, y <- combinations(ys), do: [x] ++ [y]
-  end
-
-  def combinations(_list, 0), do: [[]]
-  def combinations([], _), do: []
-
-  def combinations([x | xs], n) do
-    for(y <- combinations(xs, n - 1), do: [x | y]) ++ combinations(xs, n)
-  end
-
-  def group_by_size(set) do
-    Enum.group_by(set, &Enum.sum(&1))
-    |> Enum.map(fn {_k, v} -> v end)
-    |> Enum.filter(&(Enum.count(&1) >= @nr_of_elements))
-
-    #    |> Enum.reduce([], & &1 ++ &2)
-  end
-
-  def select(set) do
-    Enum.reduce(set, Map.new(), fn list, acc ->
-      sum = Enum.sum(list)
-
-      if elt = Map.get(acc, sum),
-        do: Map.replace(acc, sum, [list] ++ elt),
-        else: Map.put(acc, sum, [list])
-    end)
-    |> Enum.filter(fn {_k, v} -> Enum.count(v) == @nr_of_elements end)
-    |> Enum.map(&elem(&1, 1))
-  end
-
   @doc """
   Two things:
   1. Add frequency info to every node
   2. Filter nodes: the total frequency per 3-tuple should be @nr_of_elements.
   """
   def organize(list_of_nodes) when is_list(list_of_nodes) do
-    transform(list_of_nodes, Enum.reduce(list_of_nodes, &(&1 ++ &2)) |> Enum.frequencies())
+    transform(
+      list_of_nodes,
+      Enum.reduce(list_of_nodes, &(&1 ++ &2))
+      |> Enum.frequencies()
+    )
     |> Enum.filter(fn x ->
       sum(x) == 5
     end)
@@ -139,11 +126,4 @@ defmodule Euler.Exercise_068 do
   Count the number of frequencies per 3-tuple
   """
   def sum(nodes), do: Enum.reduce(nodes, 0, &(elem(&1, 1) + &2))
-
-  def external_nodes(list) do
-    combinations(list, @nr_of_elements)
-    |> Enum.map(&organize/1)
-    # Filter for having exactly nr_of_elements 3-tuples
-    |> Enum.filter(&(Enum.count(&1) == @nr_of_elements))
-  end
 end
